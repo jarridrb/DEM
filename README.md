@@ -7,7 +7,7 @@
 
 </div>
 
-TODO: FIX PREPRINT BUTTON AFTER WE'RE ON ARXIV!!!
+TODO: CITATION
 
 ## Description
 
@@ -23,7 +23,7 @@ learned on. iDEM is also capable of incorporating symmetries, namely those repre
 
 This code was taken from an internal repository and as such all commit history is lost here. Development credit for this repository goes primarily to [@atong01](https://github.com/atong01), [@jarridrb](https://github.com/jarridrb) and [@taraak](https://github.com/taraak) who built
 out most of the code and experiments with help from [@sarthmit](https://github.com/sarthmit) and [@msendera](https://github.com/msendera). Finally, the code is based off the
-[hydra lightning template](https://github.com/ashleve/lightning-hydra-template) by @amorehead and makes use of the [FAB torch](https://github.com/lollcat/fab-torch) code for the GMM task and replay buffers.
+[hydra lightning template](https://github.com/ashleve/lightning-hydra-template) by [@ashleve](https://github.com/ashleve) and makes use of the [FAB torch](https://github.com/lollcat/fab-torch) code for the GMM task and replay buffers.
 
 ## Installation
 
@@ -63,18 +63,9 @@ The current repository contains code for experiments for iDEM and pDEM as specif
 
 ## Citations
 
-If this codebase is useful towards other research efforts please consider citing us. TODO: FIX THIS CITATION ONCE WE'RE ON ARXIV!!!
+If this codebase is useful towards other research efforts please consider citing us.
 
-```
-@misc{bose2023se3stochastic,
-      title={SE(3)-Stochastic Flow Matching for Protein Backbone Generation},
-      author={Avishek Joey Bose and Tara Akhound-Sadegh and Kilian Fatras and Guillaume Huguet and Jarrid Rector-Brooks and Cheng-Hao Liu and Andrei Cristian Nica and Maksym Korablyov and Michael Bronstein and Alexander Tong},
-      year={2023},
-      eprint={2310.02391},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG}
-}
-```
+TODO: CITATION
 
 ## Contribute
 
