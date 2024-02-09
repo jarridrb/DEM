@@ -1,0 +1,4 @@
+_target_: dem.data.dummy.DummyDataModule
+n_train_batches_per_epoch: 100
+n_val_batches_per_epoch: 1
+n_test_batches_per_epoch: 1

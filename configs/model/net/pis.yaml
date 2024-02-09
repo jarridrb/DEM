@@ -1,0 +1,16 @@
+_target_: dem.models.components.pis_net.PISNN
+_partial_: true
+f_func:
+  _target_: dem.models.components.mlp.MyMLP
+  hidden_size: 128
+  hidden_layers: 3
+  emb_size: 128
+  time_emb: "sinusoidal"
+  input_emb: "sinusoidal"
+  concat_t_emb: true
+  out_dim: ${energy.dimensionality}
+  input_dim: ${energy.dimensionality}
+nn_clip: 1e4
+lgv_clip: 1e4
+f_format: "t_tnet_grad"
+energy_function: ${energy}

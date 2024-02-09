@@ -1,0 +1,65 @@
+# @package _global_
+
+# to execute this experiment run:
+# python train.py experiment=example
+
+# all parameters below will be merged with parameters from default configurations set above
+# this allows you to overwrite only specified parameters
+
+tags: ["DW4", "iDEM"]
+
+seed: 12345
+
+logger:
+  wandb:
+    tags: ${tags}
+    group: "dw4_efm"
+
+defaults:
+  - override /energy: dw4
+  - override /model/net: egnn
+  - override /model/noise_schedule: geometric
+
+optimizer:
+  lr: 1e-3
+
+model:
+  net:
+    n_particles: 4
+    n_layers: 3
+    hidden_nf: 128
+    n_dimension: 2
+
+  noise_schedule:
+    _target_: dem.models.components.noise_schedules.GeometricNoiseSchedule
+    sigma_min: 0.00001
+    sigma_max: 3
+
+  partial_prior:
+    _target_: dem.energies.base_prior.MeanFreePrior
+    _partial_: true
+    n_particles: 4
+    spatial_dim: 2
+
+  lambda_weighter:
+    _target_: dem.models.components.lambda_weighter.NoLambdaWeighter
+    _partial_: true
+
+  clipper:
+    _target_: dem.models.components.clipper.Clipper
+    should_clip_scores: True
+    should_clip_log_rewards: False
+    max_score_norm: 20
+    min_log_reward: null
+
+  diffusion_scale: 1
+  num_samples_to_generate_per_epoch: 1000
+
+  init_from_prior: true
+
+  eval_batch_size: 1000
+
+  num_estimator_mc_samples: 1000
+
+  nll_integration_method: dopri5
+  cfm_prior_std: 2.

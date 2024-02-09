@@ -1,0 +1,6 @@
+_target_: dem.models.components.mlp.FourierMLP
+_partial_: true
+num_layers: 2
+channels: 64
+in_shape: ${energy.dimensionality}
+out_shape: ${energy.dimensionality}

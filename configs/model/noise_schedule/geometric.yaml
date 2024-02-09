@@ -1,0 +1,3 @@
+_target_: dem.models.components.noise_schedules.GeometricNoiseSchedule
+sigma_min: 0.001
+sigma_max: 1.0

@@ -1,0 +1,13 @@
+_target_: dem.energies.gmm_energy.GMM
+
+dimensionality: 2
+n_mixes: 40
+loc_scaling: 40
+log_var_scaling: 1.0
+
+device: ${trainer.accelerator}
+
+plot_samples_epoch_period: 1
+
+should_unnormalize: true
+data_normalization_factor: 50

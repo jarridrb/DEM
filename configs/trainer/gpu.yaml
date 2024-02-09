@@ -1,0 +1,5 @@
+defaults:
+  - default
+
+accelerator: cuda
+devices: 1

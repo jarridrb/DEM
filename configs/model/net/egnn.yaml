@@ -1,0 +1,13 @@
+_target_: dem.models.components.egnn.EGNN_dynamics
+_partial_: true
+n_particles: 13
+n_dimension: 3
+hidden_nf: 32
+n_layers: 3
+act_fn:
+  _target_: torch.nn.SiLU
+recurrent: True
+tanh: True
+attention: True
+condition_time: True
+agg: "sum"

@@ -1,0 +1,58 @@
+# @package _global_
+
+# to execute this experiment run:
+# python train.py experiment=example
+
+# all parameters below will be merged with parameters from default configurations set above
+# this allows you to overwrite only specified parameters
+defaults:
+  - override /energy: gmm
+  - override /model/noise_schedule: geometric
+
+tags: ["GMM", "pDEM"]
+
+seed: 12345
+
+logger:
+  wandb:
+    tags: ${tags}
+    group: "gmm"
+
+model:
+  noise_schedule:
+    _target_: dem.models.components.noise_schedules.GeometricNoiseSchedule
+    sigma_min: 0.00001
+    sigma_max: 1.0
+
+  buffer:
+    prioritize: false
+
+  partial_prior:
+    _target_: dem.energies.base_prior.Prior
+    _partial_: true
+    dim: 2
+
+  clipper:
+    _target_: dem.models.components.clipper.Clipper
+    should_clip_scores: True
+    should_clip_log_rewards: False
+    max_score_norm: 70
+    min_log_reward: null
+
+  lambda_weighter:
+    _target_: dem.models.components.lambda_weighter.BasicLambdaWeighter
+    _partial_: true
+    epsilon: 1e-3
+
+  optimizer:
+    lr: 5e-4
+
+  diffusion_scale: 1.0
+
+  use_buffer: false
+  num_samples_to_generate_per_epoch: 1000
+
+  # this has to be max 1000 since test_set is 1000
+  eval_batch_size: 1000
+  scheduler: null
+  num_estimator_mc_samples: 500

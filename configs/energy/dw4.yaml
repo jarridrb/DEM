@@ -1,0 +1,17 @@
+_target_: dem.energies.multi_double_well_energy.MultiDoubleWellEnergy
+
+dimensionality: 8
+n_particles: 4
+
+data_from_efm: true
+data_path: "data/test_split_DW4.npy"
+data_path_train: "data/train_split_DW4.npy"
+data_path_val: "data/val_split_DW4.npy"
+
+device: ${trainer.accelerator}
+
+plot_samples_epoch_period: 1
+
+data_normalization_factor: 1.0
+
+is_molecule: true

@@ -1,0 +1,15 @@
+_target_: dem.energies.lennardjones_energy.LennardJonesEnergy
+
+dimensionality: 39
+n_particles: 13
+data_path: "data/test_split_LJ13-1000.npy"
+data_path_train: "data/train_split_LJ13-1000.npy"
+data_path_val: "data/test_split_LJ13-1000.npy"
+
+device: ${trainer.accelerator}
+
+plot_samples_epoch_period: 1
+
+data_normalization_factor: 1.0
+
+is_molecule: True
