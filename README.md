@@ -7,8 +7,6 @@
 
 </div>
 
-TODO: CITATION
-
 ## Description
 
 This is the official repository for the paper [Iterated Denoising Energy Matching for Sampling from Boltzmann Densities](https://arxiv.org/abs/2402.06121).
