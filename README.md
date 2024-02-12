@@ -2,7 +2,7 @@
 
 # Iterated Denoising Energy Matching for Sampling from Boltzmann Densities
 
-[![Preprint](http://img.shields.io/badge/paper-arxiv.2302.00482-B31B1B.svg)](https://arxiv.org/abs/2310.02391)
+[![Preprint](http://img.shields.io/badge/paper-arxiv.2402.06121-B31B1B.svg)](https://arxiv.org/abs/2402.06121)
 [![pytorch](https://img.shields.io/badge/PyTorch_2.0.0+-ee4c2c?logo=pytorch&logoColor=white)](https://pytorch.org/get-started/locally/)
 
 </div>
@@ -11,7 +11,7 @@ TODO: CITATION
 
 ## Description
 
-This is the official repository for the paper [Iterated Denoising Energy Matching for Sampling from Boltzmann Densities](https://arxiv.org/abs/2310.02391) (TODO: FIX THIS LINK AFTER WE'RE ON ARXIV).
+This is the official repository for the paper [Iterated Denoising Energy Matching for Sampling from Boltzmann Densities](https://arxiv.org/abs/2402.06121).
 
 We propose iDEM, a scalable and efficient method to sample from unnormalized probability distributions. iDEM makes use of the DEM objective, inspired by the stochastic regression and simulation
 free principles of score and flow matching objectives while allowing one to learn off-policy, in a loop while itself generating (optionally exploratory) new states which are subsequently
@@ -65,7 +65,16 @@ The current repository contains code for experiments for iDEM and pDEM as specif
 
 If this codebase is useful towards other research efforts please consider citing us.
 
-TODO: CITATION
+```
+@misc{akhoundsadegh2024iterated,
+      title={Iterated Denoising Energy Matching for Sampling from Boltzmann Densities}, 
+      author={Tara Akhound-Sadegh and Jarrid Rector-Brooks and Avishek Joey Bose and Sarthak Mittal and Pablo Lemos and Cheng-Hao Liu and Marcin Sendera and Siamak Ravanbakhsh and Gauthier Gidel and Yoshua Bengio and Nikolay Malkin and Alexander Tong},
+      year={2024},
+      eprint={2402.06121},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
+```
 
 ## Contribute
 
