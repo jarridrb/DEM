@@ -65,7 +65,7 @@ If this codebase is useful towards other research efforts please consider citing
 
 ```
 @misc{akhoundsadegh2024iterated,
-      title={Iterated Denoising Energy Matching for Sampling from Boltzmann Densities}, 
+      title={Iterated Denoising Energy Matching for Sampling from Boltzmann Densities},
       author={Tara Akhound-Sadegh and Jarrid Rector-Brooks and Avishek Joey Bose and Sarthak Mittal and Pablo Lemos and Cheng-Hao Liu and Marcin Sendera and Siamak Ravanbakhsh and Gauthier Gidel and Yoshua Bengio and Nikolay Malkin and Alexander Tong},
       year={2024},
       eprint={2402.06121},
