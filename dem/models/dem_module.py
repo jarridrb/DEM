@@ -646,7 +646,7 @@ class DEMLitModule(LightningModule):
             generated_samples = self.generate_samples(
                 num_samples=self.eval_batch_size,
                 diffusion_scale=self.diffusion_scale,
-                #negative_time=self.negative_time
+                negative_time=self.negative_time
             )
         else:
             if len(self.buffer) < self.eval_batch_size:
