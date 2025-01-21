@@ -59,6 +59,54 @@ which we only include a config for iDEM as pDEM had convergence issues on this d
 
 The current repository contains code for experiments for iDEM and pDEM as specified in our paper.
 
+## Update January 2025
+After publication of this repository we received feedback that running the conditional flow matching (CFM) models 
+used for computing test set negative log likelihood, log Z and ESS was not straightforward and that
+it was difficult to reproduce the 2-Wasserstein results for LJ55. To this end, we here provide more detailed
+instructions on how to run the CFM models. In doing this, we also found a few bugs in the public code implementation
+for LJ55 (note that this codebase is an adaptation of a large number of notebooks used for the paper) which we have 
+fixed in a set of code updates just merged to the repository. 
+
+### CFM for Computing NLL Pipeline
+We will use the example of LJ55 in detailing the pipeline. First, run the training script as normal as follows
+
+```bash
+python dem/train.py experiment=lj55_idem
+```
+
+After training is complete, find the epochs with the best `val/2-Wasserstein` values in wandb. We will use the
+best checkpoint to generate a training dataset for CFM in the following command. This command will also log the
+2-Wasserstein and total variation distance for the dataset generated from the trained iDEM model compared to the
+test set. To run this, you must provide the eval script with the checkpoint path you are using.
+
+```bash
+python dem/eval.py experiment=lj55_idem ckpt_path=<path_to_ckpt>
+```
+
+This will take some time to run and will generate a file named `samples_<n_samples_to_generate>.pt` in the hydra
+runtime directory for the eval run. We can now use these samples to train a CFM model. We provide a config `lj55_idem_cfm`
+which has the settings to enable the CFM pipeline to run by default for the LJ55 task, though doing so for other tasks
+is also simple. The main config changes required are to set `model.debug_use_train_data=true, model.nll_with_cfm=true` 
+and `model.logz_with_cfm=true`. To point the CFM training run to the dataset generated from iDEM samples we can set the
+`energy.data_path_train` attribute to the path of the generated samples. CFM training in this example can then be done
+with
+
+```bash
+python dem/train.py experiment=lj55_idem_cfm energy.data_path_train=<path_to_samples>
+```
+
+Finally, to eval test set NLL, take the checkpoint of the CFM run with the best `val/nll` and run the eval script
+again
+
+```bash
+python dem/eval.py experiment=lj55_idem_cfm ckpt_path=<path_to_cfm_ckpt>
+```
+
+### Bug in ESS Computation
+In preparing this code update we noticed a bug in our evaluation of ESS in our original submission. In particular, 
+we found that we incorrectly evaluated ESS on a batch size of 16 for iDEM and all baselines for all tasks. We recommend
+users of our repository instead evaluate ESS on a larger batch size.
+
 ## Citations
 
 If this codebase is useful towards other research efforts please consider citing us.
