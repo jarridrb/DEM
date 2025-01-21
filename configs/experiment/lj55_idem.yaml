@@ -67,4 +67,8 @@ model:
   nll_integration_method: dopri5
 
   negative_time: True
-  num_negative_time_steps: 100
+  num_negative_time_steps: 10
+
+callbacks:
+  model_checkpoint:
+    monitor: "val/2-Wasserstein"

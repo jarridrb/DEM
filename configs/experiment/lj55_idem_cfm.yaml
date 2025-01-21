@@ -38,7 +38,8 @@ model:
   use_ema: false
   nll_with_cfm: true
   logz_with_cfm: true
-  full_test_set_nll_on_val_epoch_end: true
+  tol: 1e-3
+  use_exact_likelihood: false
   net:
     n_particles: 55
     n_layers: 5

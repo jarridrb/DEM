@@ -40,7 +40,7 @@ eval_batch_size: 1024
 
 num_integration_steps: 1000
 nll_integration_method: dopri5
-tol: 1e-3
+tol: 1e-5
 
 nll_with_cfm: false
 nll_with_dem: false
@@ -67,7 +67,7 @@ use_richardsons: false
 
 cfm_loss_weight: 1.0
 use_ema: false
-use_exact_likelihood: false
+use_exact_likelihood: true
 
 # train cfm only on train data and not dem
 debug_use_train_data: false
