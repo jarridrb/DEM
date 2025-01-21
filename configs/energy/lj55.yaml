@@ -5,6 +5,7 @@ n_particles: 55
 data_path: "data/test_split_LJ55-1000-part1.npy"
 data_path_train: "data/train_split_LJ55-1000-part1.npy"
 data_path_val: "data/val_split_LJ55-1000-part1.npy"
+data_path_test: "data/test_split_LJ55-1000-part1.npy"
 
 device: ${trainer.accelerator}
 

@@ -5,7 +5,7 @@
 # - conda allows for installing packages without requiring certain compilers or
 #   libraries to be available in the system, since it installs precompiled binaries
 
-name: dem
+#name: dem
 
 channels:
   - nvidia

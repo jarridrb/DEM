@@ -23,10 +23,14 @@ def grad_E(x, energy_function):
         return torch.autograd.grad(torch.sum(energy_function(x)), x)[0].detach()
 
 
-def negative_time_descent(x, energy_function, num_steps, dt=1e-4):
+def negative_time_descent(x, energy_function, num_steps, dt=1e-4, clipper=None):
     samples = []
     for _ in range(num_steps):
         drift = grad_E(x, energy_function)
+
+        if clipper is not None:
+            drift = clipper.clip_scores(drift)
+
         x = x + drift * dt
 
         if energy_function.is_molecule:
@@ -80,6 +84,7 @@ def integrate_sde(
     time_range=1.0,
     negative_time=False,
     num_negative_time_steps=100,
+    clipper=None
 ):
     start_time = time_range if reverse_time else 0.0
     end_time = time_range - start_time
@@ -102,7 +107,7 @@ def integrate_sde(
     if negative_time:
         print("doing negative time descent...")
         samples_langevin = negative_time_descent(
-            x, energy_function, num_steps=num_negative_time_steps
+            x, energy_function, num_steps=num_negative_time_steps, clipper=clipper
         )
         samples = torch.concatenate((samples, samples_langevin), axis=0)
 
