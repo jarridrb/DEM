@@ -27,6 +27,7 @@ class GMM(BaseEnergyFunction):
         train_set_size=100000,
         test_set_size=2000,
         val_set_size=2000,
+        data_path_train=None
     ):
         use_gpu = device != "cpu"
         torch.manual_seed(0)  # seed of 0 for GMM problem
@@ -51,6 +52,8 @@ class GMM(BaseEnergyFunction):
         self.test_set_size = test_set_size
         self.val_set_size = val_set_size
 
+        self.data_path_train = data_path_train
+
         self.name = "gmm"
 
         super().__init__(
@@ -65,8 +68,21 @@ class GMM(BaseEnergyFunction):
         return self.gmm.test_set
 
     def setup_train_set(self):
-        train_samples = self.gmm.sample((self.train_set_size,))
-        return self.normalize(train_samples)
+        if self.data_path_train is None:
+            train_samples = self.normalize(self.gmm.sample((self.train_set_size,)))
+
+        else:
+            # Assume the samples we are loading from disk are already normalized.
+            # This breaks if they are not.
+
+            if self.data_path_train.endswith(".pt"):
+                data = torch.load(self.data_path_train).cpu().numpy()
+            else:
+                data = np.load(self.data_path_train, allow_pickle=True)
+
+            data = torch.tensor(data, device=self.device)
+
+        return train_samples
 
     def setup_val_set(self):
         val_samples = self.gmm.sample((self.val_set_size,))
