@@ -29,7 +29,7 @@ data:
   n_val_batches_per_epoch: 4
 
 trainer:
-  check_val_every_n_epoch: 10
+  check_val_every_n_epoch: 1
   max_epochs: 2000
 
 model:
@@ -82,6 +82,10 @@ model:
 
   nll_integration_method: dopri5
 
-  negative_time: true
+  negative_time: false
   num_negative_time_steps: 10
 
+callbacks:
+  model_checkpoint:
+    monitor: "val/nll"
+    save_top_k: -1

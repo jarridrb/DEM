@@ -23,7 +23,7 @@ data:
   n_val_batches_per_epoch: 4
 
 trainer:
-  check_val_every_n_epoch: 50
+  check_val_every_n_epoch: 5
   max_epochs: 2000
 
 model:
@@ -59,7 +59,7 @@ model:
   num_init_samples: 1024
   num_samples_to_generate_per_epoch: 128
   num_samples_to_sample_from_buffer: 128
-  eval_batch_size: 16
+  eval_batch_size: 128
 
   init_from_prior: true
   num_samples_to_save: 10000
@@ -72,3 +72,4 @@ model:
 callbacks:
   model_checkpoint:
     monitor: "val/2-Wasserstein"
+    save_top_k: -1

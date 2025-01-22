@@ -822,13 +822,11 @@ class DEMLitModule(LightningModule):
             forwards_samples = self.compute_and_log_nll(
                 self.dem_cnf, self.prior, batch, prefix, "dem_"
             )
-            to_log["gen_1_dem"] = forwards_samples
             self.compute_log_z(self.cfm_cnf, self.prior, backwards_samples, prefix, "dem_")
         if batch_idx == 0 and self.nll_with_cfm:
             forwards_samples = self.compute_and_log_nll(
                 self.cfm_cnf, self.cfm_prior, batch, prefix, ""
             )
-            to_log["gen_1_cfm"] = forwards_samples
 
             iter_samples, _, _ = self.buffer.sample(self.eval_batch_size)
 
