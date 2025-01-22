@@ -108,9 +108,10 @@ we found that we incorrectly evaluated ESS on a batch size of 16 for iDEM and al
 users of our repository instead evaluate ESS on a larger batch size.
 
 ### Bug in use of negative time
-In our original manuscript for LJ55 we used 10 steps of "negative time" during inference where we continued 
-SDE inference for 10 extra steps using the true score at time 0. The repository code had the flag to do this
-turned on in the configs but the code mistakenly ignored this flag. This has been corrected in the update.
+In our original manuscript for LJ55 we used 10 steps of "negative time" (described in Section 4 of our manuscript)
+during inference where we continued SDE inference for 10 extra steps using the true score at time 0. The repository 
+code had the flag to do this turned on in the configs but the code mistakenly ignored this flag. This has been 
+corrected in the update.
 
 ## Citations
 
