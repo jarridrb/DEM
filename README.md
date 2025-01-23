@@ -102,6 +102,10 @@ again
 python dem/eval.py experiment=lj55_idem_cfm ckpt_path=<path_to_cfm_ckpt>
 ```
 
+Finally, we note that you may need to try a couple different checkpoints from the original 
+`python dem/train.py experiment=lj55_idem` run to be used in generating samples and downstream CFM training/eval in
+order to get the best combination of eval metrics.
+
 ### Bug in ESS Computation
 In preparing this code update we noticed a bug in our evaluation of ESS in our original submission. In particular, 
 we found that we incorrectly evaluated ESS on a batch size of 16 for iDEM and all baselines for all tasks. We recommend
