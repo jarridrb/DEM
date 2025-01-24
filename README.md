@@ -60,12 +60,9 @@ which we only include a config for iDEM as pDEM had convergence issues on this d
 The current repository contains code for experiments for iDEM and pDEM as specified in our paper.
 
 ## Update January 2025
-After publication of this repository we received feedback that running the conditional flow matching (CFM) models 
-used for computing test set negative log likelihood, log Z and ESS was not straightforward and that
-it was difficult to reproduce the 2-Wasserstein results for LJ55. To this end, we here provide more detailed
-instructions on how to run the CFM models. In doing this, we also found a few bugs in the public code implementation
-for LJ55 (note that this codebase is an adaptation of a large number of notebooks used for the paper) which we have 
-fixed in a set of code updates just merged to the repository. 
+In this update we provide code and more detailed instructions on how to run the CFM models including log Z and ESS computation.
+In doing this, we also found a few bugs in the public code implementation for LJ55 (note that this codebase is an adaptation of 
+a large number of notebooks used for the paper) which we have fixed in a set of code updates just merged to the repository.
 
 ### CFM for Computing NLL Pipeline
 We will use the example of LJ55 in detailing the pipeline. First, run the training script as normal as follows
@@ -106,16 +103,15 @@ Finally, we note that you may need to try a couple different checkpoints from th
 `python dem/train.py experiment=lj55_idem` run to be used in generating samples and downstream CFM training/eval in
 order to get the best combination of eval metrics.
 
-### Bug in ESS Computation
-In preparing this code update we noticed a bug in our evaluation of ESS in our original submission. In particular, 
-we found that we incorrectly evaluated ESS on a batch size of 16 for iDEM and all baselines for all tasks. We recommend
-users of our repository instead evaluate ESS on a larger batch size.
+### ESS Computation Considerations
+In preparing this update we noticed our original evaluation of ESS was evaluated on a batch size of 16 on all tasks. We recommend users of our 
+repository instead evaluate ESS on a larger batch size, (default to 1000) in the updated code. To reproduce the results in the paper you can 
+either set this to 16 or look at the wandb during validation when training the CFM model which evaluates on batch size 16. 
 
-### Bug in use of negative time
+### LJ55 negative time
 In our original manuscript for LJ55 we used 10 steps of "negative time" (described in Section 4 of our manuscript)
-during inference where we continued SDE inference for 10 extra steps using the true score at time 0. The repository 
-code had the flag to do this turned on in the configs but the code mistakenly ignored this flag. This has been 
-corrected in the update.
+during inference where we continued SDE inference for 10 extra steps using the true score at time 0. The repository
+code had the flag to do this turned on in the configs but the code ignored this flag. This has been corrected in the update.
 
 ## Citations
 
