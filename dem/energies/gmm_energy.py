@@ -27,7 +27,7 @@ class GMM(BaseEnergyFunction):
         train_set_size=100000,
         test_set_size=2000,
         val_set_size=2000,
-        data_path_train=None
+        data_path_train=None,
     ):
         use_gpu = device != "cpu"
         torch.manual_seed(0)  # seed of 0 for GMM problem

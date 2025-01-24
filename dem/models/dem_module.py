@@ -1,15 +1,14 @@
+import math
+import random
 import time
 from typing import Any, Dict, Optional
 
 import hydra
-import random
+import lightning as L
 import matplotlib.pyplot as plt
 import numpy as np
 import ot as pot
 import torch
-import math
-import lightning as L
-from tqdm import tqdm
 from hydra.utils import get_original_cwd
 from lightning import LightningModule
 from lightning.pytorch.loggers import WandbLogger
@@ -18,6 +17,7 @@ from torchcfm.conditional_flow_matching import (
     ExactOptimalTransportConditionalFlowMatcher,
 )
 from torchmetrics import MeanMetric
+from tqdm import tqdm
 
 from dem.energies.base_energy_function import BaseEnergyFunction
 from dem.utils.data_utils import remove_mean
@@ -25,7 +25,10 @@ from dem.utils.logging_utils import fig_to_image
 
 from .components.clipper import Clipper
 from .components.cnf import CNF
-from .components.distribution_distances import compute_distribution_distances, compute_full_dataset_distribution_distances
+from .components.distribution_distances import (
+    compute_distribution_distances,
+    compute_full_dataset_distribution_distances,
+)
 from .components.ema import EMAWrapper
 from .components.lambda_weighter import BaseLambdaWeighter
 from .components.mlp import TimeConder
@@ -149,7 +152,7 @@ class DEMLitModule(LightningModule):
         negative_time=False,
         num_negative_time_steps=100,
         seed=None,
-        nll_batch_size=256
+        nll_batch_size=256,
     ) -> None:
         """Initialize a `MNISTLitModule`.
 
@@ -526,7 +529,7 @@ class DEMLitModule(LightningModule):
             no_grad=no_grad,
             negative_time=negative_time,
             num_negative_time_steps=self.num_negative_time_steps,
-            clipper=self.clipper
+            clipper=self.clipper,
         )
         if return_full_trajectory:
             return trajectory
@@ -545,10 +548,11 @@ class DEMLitModule(LightningModule):
         for i in tqdm(range(num_batches)):
             start_idx = i * batch_size
             end_idx = start_idx + batch_size
-            iter_samples = samples[start_idx : end_idx]
+            iter_samples = samples[start_idx:end_idx]
 
             aug_samples = torch.cat(
-                [iter_samples, torch.zeros(iter_samples.shape[0], 1, device=samples.device)], dim=-1
+                [iter_samples, torch.zeros(iter_samples.shape[0], 1, device=samples.device)],
+                dim=-1,
             )
             aug_output = cnf.integrate(aug_samples)[-1]
             x_1s.append(aug_output[..., :-1])
@@ -594,7 +598,7 @@ class DEMLitModule(LightningModule):
             generated_samples = self.generate_samples(
                 num_samples=self.eval_batch_size,
                 diffusion_scale=self.diffusion_scale,
-                negative_time=self.negative_time
+                negative_time=self.negative_time,
             )
             generated_energies = self.energy_function(generated_samples)
         else:
@@ -620,7 +624,7 @@ class DEMLitModule(LightningModule):
             generated_samples = self.generate_samples(
                 num_samples=self.eval_batch_size,
                 diffusion_scale=self.diffusion_scale,
-                negative_time=self.negative_time
+                negative_time=self.negative_time,
             )
         else:
             if len(self.buffer) < self.eval_batch_size:
@@ -646,7 +650,7 @@ class DEMLitModule(LightningModule):
             generated_samples = self.generate_samples(
                 num_samples=self.eval_batch_size,
                 diffusion_scale=self.diffusion_scale,
-                negative_time=self.negative_time
+                negative_time=self.negative_time,
             )
         else:
             if len(self.buffer) < self.eval_batch_size:
@@ -722,7 +726,7 @@ class DEMLitModule(LightningModule):
         for i in range_generator:
             start_idx = i * batch_size
             end_idx = start_idx + batch_size
-            batch = samples[start_idx : end_idx]
+            batch = samples[start_idx:end_idx]
 
             cnf.nfe = 0.0
             nll, forwards_samples, logdetjac, log_p_1 = self.compute_nll(cnf, prior, batch)
@@ -777,7 +781,7 @@ class DEMLitModule(LightningModule):
             backwards_samples = self.generate_samples(
                 num_samples=self.eval_batch_size,
                 diffusion_scale=self.diffusion_scale,
-                negative_time=self.negative_time
+                negative_time=self.negative_time,
             )
 
         # sample eval_batch_size from generated samples from dem to match dimensions
@@ -871,8 +875,8 @@ class DEMLitModule(LightningModule):
         unprioritized_buffer_samples, cfm_samples, dem_samples = None, None, None
         if self.nll_with_cfm:
             batch_size = (
-                len(outputs["data_0"]) \
-                if "data_0" in outputs \
+                len(outputs["data_0"])
+                if "data_0" in outputs
                 else self.num_samples_to_generate_per_epoch
             )
 
@@ -896,8 +900,8 @@ class DEMLitModule(LightningModule):
 
         else:
             batch_size = (
-                len(outputs["data_0"]) \
-                if "data_0" in outputs \
+                len(outputs["data_0"])
+                if "data_0" in outputs
                 else self.num_samples_to_generate_per_epoch
             )
 
@@ -968,6 +972,7 @@ class DEMLitModule(LightningModule):
         print(f"Saving samples to {path}")
 
         import os
+
         os.makedirs(self.energy_function.name, exist_ok=True)
         path2 = f"{self.energy_function.name}/samples_{self.hparams.version}_{self.num_samples_to_save}.pt"
         torch.save(final_samples, path2)
@@ -1024,8 +1029,7 @@ class DEMLitModule(LightningModule):
         d = dict(zip(names, dists))
 
         d["test/full_batch/dist_total_var"] = self._compute_total_var(
-            self.energy_function.unnormalize(final_samples),
-            test_set
+            self.energy_function.unnormalize(final_samples), test_set
         )
 
         self.log_dict(d, sync_dist=True)

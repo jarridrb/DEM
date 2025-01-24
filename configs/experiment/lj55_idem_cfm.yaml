@@ -6,7 +6,6 @@
 # all parameters below will be merged with parameters from default configurations set above
 # this allows you to overwrite only specified parameters
 
-
 defaults:
   - override /energy: lj55
   - override /model/net: egnn

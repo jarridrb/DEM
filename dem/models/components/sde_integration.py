@@ -84,7 +84,7 @@ def integrate_sde(
     time_range=1.0,
     negative_time=False,
     num_negative_time_steps=100,
-    clipper=None
+    clipper=None,
 ):
     start_time = time_range if reverse_time else 0.0
     end_time = time_range - start_time

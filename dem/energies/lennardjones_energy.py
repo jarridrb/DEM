@@ -327,4 +327,6 @@ class LennardJonesEnergy(BaseEnergyFunction):
 
         except:
             fig.canvas.draw()
-            return PIL.Image.frombytes("RGB", fig.canvas.get_width_height(), fig.canvas.renderer.buffer_rgba())
+            return PIL.Image.frombytes(
+                "RGB", fig.canvas.get_width_height(), fig.canvas.renderer.buffer_rgba()
+            )

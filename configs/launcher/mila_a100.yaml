@@ -1,0 +1,17 @@
+# @package _global_
+#
+defaults:
+  - override /hydra/launcher: submitit_slurm
+
+hydra:
+  launcher:
+    partition: main
+    cpus_per_task: 3
+    mem_gb: 24
+    gres: gpu:a100l:1
+    timeout_min: 2880
+    exclude: cn-g[001-012] # exclude mig for ddp
+    #exclude: cn-g[005-012,014,017-026] # exclude mig for ddp
+    array_parallelism: 10 # max num of tasks to run in parallel (via job array)
+    setup:
+      - "micromamba activate ${oc.env:MICROMAMBA_ENV}"

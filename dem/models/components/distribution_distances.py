@@ -133,9 +133,7 @@ def compute_full_dataset_distribution_distances(
             dists.append((w1, w2, *mean_dists, *median_dists))
         else:
             if energy_function.is_molecule:
-                dists.append(
-                    (w1, w2, *mean_dists, *median_dists)
-                )
+                dists.append((w1, w2, *mean_dists, *median_dists))
             else:
                 dists.append((w1, w2, *mean_dists, *median_dists))
         # For multipoint datasets add timepoint specific distances

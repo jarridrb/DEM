@@ -61,7 +61,7 @@ The current repository contains code for experiments for iDEM and pDEM as specif
 
 ## Update January 2025
 In this update we provide code and more detailed instructions on how to run the CFM models including log Z and ESS computation.
-In doing this, we also found a few bugs in the public code implementation for LJ55 (note that this codebase is an adaptation of 
+In doing this, we also found a few bugs in the public code implementation for LJ55 (note that this codebase is an adaptation of
 a large number of notebooks used for the paper) which we have fixed in a set of code updates just merged to the repository.
 
 ### CFM for Computing NLL Pipeline
@@ -83,7 +83,7 @@ python dem/eval.py experiment=lj55_idem ckpt_path=<path_to_ckpt>
 This will take some time to run and will generate a file named `samples_<n_samples_to_generate>.pt` in the hydra
 runtime directory for the eval run. We can now use these samples to train a CFM model. We provide a config `lj55_idem_cfm`
 which has the settings to enable the CFM pipeline to run by default for the LJ55 task, though doing so for other tasks
-is also simple. The main config changes required are to set `model.debug_use_train_data=true, model.nll_with_cfm=true` 
+is also simple. The main config changes required are to set `model.debug_use_train_data=true, model.nll_with_cfm=true`
 and `model.logz_with_cfm=true`. To point the CFM training run to the dataset generated from iDEM samples we can set the
 `energy.data_path_train` attribute to the path of the generated samples. CFM training in this example can then be done
 with
@@ -99,14 +99,14 @@ again
 python dem/eval.py experiment=lj55_idem_cfm ckpt_path=<path_to_cfm_ckpt>
 ```
 
-Finally, we note that you may need to try a couple different checkpoints from the original 
+Finally, we note that you may need to try a couple different checkpoints from the original
 `python dem/train.py experiment=lj55_idem` run to be used in generating samples and downstream CFM training/eval in
 order to get the best combination of eval metrics.
 
 ### ESS Computation Considerations
-In preparing this update we noticed our original evaluation of ESS was evaluated on a batch size of 16 on all tasks. We recommend users of our 
-repository instead evaluate ESS on a larger batch size, (default to 1000) in the updated code. To reproduce the results in the paper you can 
-either set this to 16 or look at the wandb during validation when training the CFM model which evaluates on batch size 16. 
+In preparing this update we noticed our original evaluation of ESS was evaluated on a batch size of 16 on all tasks. We recommend users of our
+repository instead evaluate ESS on a larger batch size, (default to 1000) in the updated code. To reproduce the results in the paper you can
+either set this to 16 or look at the wandb during validation when training the CFM model which evaluates on batch size 16.
 
 ### LJ55 negative time
 In our original manuscript for LJ55 we used 10 steps of "negative time" (described in Section 4 of our manuscript)
