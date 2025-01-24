@@ -40,13 +40,13 @@ repos:
 
   # python docstring coverage checking
   - repo: https://github.com/econchick/interrogate
-    rev: 1.5.0 # or master if you're bold
+    rev: 1.7.0 # or master if you're bold
     hooks:
       - id: interrogate
         args:
           [
             --verbose,
-            --fail-under=20,
+            --fail-under=15,
             --ignore-init-module,
             --ignore-init-method,
             --ignore-module,

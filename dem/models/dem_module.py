@@ -55,7 +55,7 @@ def t_stratified_loss(batch_t, batch_loss, num_bins=5, loss_name=None):
     for t_bin in np.unique(bin_idx).tolist():
         bin_start = bin_edges[t_bin]
         bin_end = bin_edges[t_bin + 1]
-        t_range = f"{loss_name} t=[{bin_start:.2f},{bin_end:.2f})"
+        t_range = f"{loss_name} t=[{bin_start: .2f}, {bin_end: .2f})"
         range_loss = t_binned_loss[t_bin] / t_binned_n[t_bin]
         stratified_losses[t_range] = range_loss
     return stratified_losses
