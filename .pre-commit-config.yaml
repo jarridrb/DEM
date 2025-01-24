@@ -1,6 +1,5 @@
 default_language_version:
   python: python3
-  node: 16.14.2
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -38,20 +37,6 @@ repos:
     hooks:
       - id: pyupgrade
         args: [--py38-plus]
-
-  # python docstring formatting
-  - repo: https://github.com/myint/docformatter
-    rev: v1.7.4
-    hooks:
-      - id: docformatter
-        args:
-          [
-            --in-place,
-            --wrap-summaries=99,
-            --wrap-descriptions=99,
-            --style=sphinx,
-            --black,
-          ]
 
   # python docstring coverage checking
   - repo: https://github.com/econchick/interrogate
