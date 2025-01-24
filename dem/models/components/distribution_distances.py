@@ -177,7 +177,7 @@ def find_rigid_alignment(A, B):
         >>> R, t = find_rigid_alignment(A, B)
         >>> A_aligned = (R.mm(A.T)).T + t
         >>> rmsd = torch.sqrt(((A_aligned - B)**2).sum(axis=1).mean())
-        >>> torch.allclose(rmsd, tensor(3.7064e-07))
+        >>> torch.allclose(rmsd, torch.tensor(3.7064e-07))
         True
     """
     a_mean = A.mean(axis=0)
