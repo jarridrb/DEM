@@ -51,7 +51,7 @@ dependencies:
       - torchdiffeq
       - torchcfm
       - git+https://github.com/VincentStimper/resampled-base-flows.git # larsflow
-      - git+https://github.com/noegroup/bgflow.git
+      - git+https://github.com/atong01/bgflow
       - git+https://github.com/jarridrb/fab-torch.git
       - hydra-submitit-launcher
       - scikit-learn
