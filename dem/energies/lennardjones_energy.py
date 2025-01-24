@@ -325,7 +325,7 @@ class LennardJonesEnergy(BaseEnergyFunction):
 
             return PIL.Image.open(buffer)
 
-        except:
+        except Exception as e:
             fig.canvas.draw()
             return PIL.Image.frombytes(
                 "RGB", fig.canvas.get_width_height(), fig.canvas.renderer.buffer_rgba()

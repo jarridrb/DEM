@@ -1,6 +1,7 @@
 from typing import Optional
 
 import matplotlib.pyplot as plt
+import numpy as np
 import torch
 from fab.target_distributions import gmm
 from fab.utils.plotting import plot_contours, plot_marginal_pair
