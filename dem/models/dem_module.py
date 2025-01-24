@@ -952,7 +952,7 @@ class DEMLitModule(LightningModule):
 
             final_samples.append(backwards_samples)
             end = time.time()
-            print(f"batch {i} took {end - start:0.2f}s")
+            print(f"batch {i} took{end - start: 0.2f}s")
             break
 
         print("Computing log Z and ESS on generated samples")
@@ -1008,7 +1008,7 @@ class DEMLitModule(LightningModule):
             )
             final_samples.append(samples)
             end = time.time()
-            print(f"batch {i} took {end - start:0.2f}s")
+            print(f"batch {i} took{end - start: 0.2f}s")
 
             if i == 0:
                 self.energy_function.log_on_epoch_end(
