@@ -67,7 +67,7 @@ use_richardsons: false
 
 cfm_loss_weight: 1.0
 use_ema: false
-use_exact_likelihood: True
+use_exact_likelihood: true
 
 # train cfm only on train data and not dem
 debug_use_train_data: false
@@ -83,3 +83,7 @@ num_samples_to_save: 100000
 
 negative_time: false
 num_negative_time_steps: 100
+
+nll_batch_size: 256
+
+seed: ${seed}

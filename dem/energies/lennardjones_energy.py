@@ -1,3 +1,4 @@
+from io import BytesIO
 from typing import Optional
 
 import matplotlib.pyplot as plt
@@ -111,6 +112,7 @@ class LennardJonesEnergy(BaseEnergyFunction):
         data_path,
         data_path_train=None,
         data_path_val=None,
+        data_path_test=None,
         device="cpu",
         plot_samples_epoch_period=5,
         plotting_buffer_sample_size=512,
@@ -133,6 +135,7 @@ class LennardJonesEnergy(BaseEnergyFunction):
         self.data_path = data_path
         self.data_path_train = data_path_train
         self.data_path_val = data_path_val
+        self.data_path_test = data_path_test
 
         # self.data_path = get_original_cwd() + "/" + data_path
         # self.data_path_train = get_original_cwd() + "/" + data_path_train
@@ -162,7 +165,7 @@ class LennardJonesEnergy(BaseEnergyFunction):
         return self.lennard_jones._log_prob(samples).squeeze(-1)
 
     def setup_test_set(self):
-        data = np.load(self.data_path_val, allow_pickle=True)
+        data = np.load(self.data_path_test, allow_pickle=True)
         data = remove_mean(data, self.n_particles, self.n_spatial_dim)
         data = torch.tensor(data, device=self.device)
         return data
@@ -178,7 +181,12 @@ class LennardJonesEnergy(BaseEnergyFunction):
     def setup_train_set(self):
         if self.data_path_train is None:
             raise ValueError("Data path for training data is not provided")
-        data = np.load(self.data_path_val, allow_pickle=True)
+
+        if self.data_path_train.endswith(".pt"):
+            data = torch.load(self.data_path_train).cpu().numpy()
+        else:
+            data = np.load(self.data_path_train, allow_pickle=True)
+
         data = remove_mean(data, self.n_particles, self.n_spatial_dim)
         data = torch.tensor(data, device=self.device)
         return data
@@ -310,5 +318,15 @@ class LennardJonesEnergy(BaseEnergyFunction):
         axs[1].set_xlabel("Energy")
         axs[1].legend()
 
-        fig.canvas.draw()
-        return PIL.Image.frombytes("RGB", fig.canvas.get_width_height(), fig.canvas.tostring_rgb())
+        try:
+            buffer = BytesIO()
+            fig.savefig(buffer, format="png", bbox_inches="tight", pad_inches=0)
+            buffer.seek(0)
+
+            return PIL.Image.open(buffer)
+
+        except Exception as e:
+            fig.canvas.draw()
+            return PIL.Image.frombytes(
+                "RGB", fig.canvas.get_width_height(), fig.canvas.renderer.buffer_rgba()
+            )

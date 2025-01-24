@@ -6,7 +6,11 @@
 # all parameters below will be merged with parameters from default configurations set above
 # this allows you to overwrite only specified parameters
 
-tags: ["LJ55", "iDEM"]
+defaults:
+  - override /energy: lj55
+  - override /model/net: egnn
+
+tags: ["LJ55", "CFM", "NLL_eval"]
 
 seed: 12345
 
@@ -15,18 +19,26 @@ logger:
     tags: ${tags}
     group: "lj55"
 
-defaults:
-  - override /energy: lj55
-  - override /model/net: egnn
+# You need to fill energy.data_path_train at the command line with samples generated
+# by running dem/eval.py on a checkpoint
+energy:
+  data_path_train: null
 
 data:
   n_val_batches_per_epoch: 4
 
 trainer:
-  check_val_every_n_epoch: 5
+  check_val_every_n_epoch: 1
   max_epochs: 2000
 
 model:
+  debug_use_train_data: true
+  use_otcfm: false
+  use_ema: false
+  nll_with_cfm: true
+  logz_with_cfm: true
+  tol: 1e-3
+  use_exact_likelihood: false
   net:
     n_particles: 55
     n_layers: 5
@@ -43,6 +55,9 @@ model:
     n_particles: 55
     spatial_dim: 3
 
+  optimizer:
+    lr: 1e-3
+
   lambda_weighter:
     _target_: dem.models.components.lambda_weighter.NoLambdaWeighter
     _partial_: true
@@ -58,18 +73,18 @@ model:
 
   num_init_samples: 1024
   num_samples_to_generate_per_epoch: 128
-  num_samples_to_sample_from_buffer: 128
-  eval_batch_size: 128
+  num_samples_to_sample_from_buffer: 512
+  num_samples_to_save: 1000
+  eval_batch_size: 16
 
   init_from_prior: true
-  num_samples_to_save: 10000
 
   nll_integration_method: dopri5
 
-  negative_time: True
+  negative_time: false
   num_negative_time_steps: 10
 
 callbacks:
   model_checkpoint:
-    monitor: "val/2-Wasserstein"
+    monitor: "val/nll"
     save_top_k: -1
