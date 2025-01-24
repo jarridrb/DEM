@@ -594,7 +594,7 @@ class DEMLitModule(LightningModule):
             generated_samples = self.generate_samples(
                 num_samples=self.eval_batch_size,
                 diffusion_scale=self.diffusion_scale,
-                #negative_time=self.negative_time
+                negative_time=self.negative_time
             )
             generated_energies = self.energy_function(generated_samples)
         else:
@@ -620,7 +620,7 @@ class DEMLitModule(LightningModule):
             generated_samples = self.generate_samples(
                 num_samples=self.eval_batch_size,
                 diffusion_scale=self.diffusion_scale,
-                #negative_time=self.negative_time
+                negative_time=self.negative_time
             )
         else:
             if len(self.buffer) < self.eval_batch_size:
@@ -823,7 +823,7 @@ class DEMLitModule(LightningModule):
                 self.dem_cnf, self.prior, batch, prefix, "dem_"
             )
             self.compute_log_z(self.cfm_cnf, self.prior, backwards_samples, prefix, "dem_")
-        if batch_idx == 0 and self.nll_with_cfm:
+        if self.nll_with_cfm:
             forwards_samples = self.compute_and_log_nll(
                 self.cfm_cnf, self.cfm_prior, batch, prefix, ""
             )
