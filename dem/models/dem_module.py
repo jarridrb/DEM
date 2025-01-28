@@ -985,10 +985,10 @@ class DEMLitModule(LightningModule):
         wandb_logger = get_wandb_logger(self.loggers)
 
         self.eval_epoch_end("test")
-        # self._log_energy_w2(prefix="test")
-        # if self.energy_function.is_molecule:
-        #     self._log_dist_w2(prefix="test")
-        #     self._log_dist_total_var(prefix="test")
+        self._log_energy_w2(prefix="test")
+        if self.energy_function.is_molecule:
+            self._log_dist_w2(prefix="test")
+            self._log_dist_total_var(prefix="test")
 
         if self.nll_with_cfm:
             self._cfm_test_epoch_end()
@@ -1020,8 +1020,9 @@ class DEMLitModule(LightningModule):
         final_samples = torch.cat(final_samples, dim=0)
 
         print("Computing large batch distribution distances")
+        idx = torch.randperm(len(final_samples))[:10000]
         names, dists = compute_full_dataset_distribution_distances(
-            self.energy_function.unnormalize(final_samples)[:, None],
+            self.energy_function.unnormalize(final_samples)[idx, None],
             test_set[:, None],
             self.energy_function,
         )
