@@ -1,3 +1,4 @@
+from io import BytesIO
 from typing import Optional
 
 import matplotlib.pyplot as plt
@@ -239,5 +240,19 @@ class MultiDoubleWellEnergy(BaseEnergyFunction):
         axs[1].set_xlabel("Energy")
         axs[1].legend()
 
-        fig.canvas.draw()
-        return PIL.Image.frombytes("RGB", fig.canvas.get_width_height(), fig.canvas.tostring_rgb())
+        try:
+            buffer = BytesIO()
+            fig.savefig(buffer, format="png", bbox_inches="tight", pad_inches=0)
+            buffer.seek(0)
+
+            return PIL.Image.open(buffer)
+
+        except Exception as e:
+            fig.canvas.draw()
+            return PIL.Image.frombytes(
+                "RGB", fig.canvas.get_width_height(), fig.canvas.renderer.buffer_rgba()
+            )
+            fig.canvas.draw()
+            return PIL.Image.frombytes(
+                "RGB", fig.canvas.get_width_height(), fig.canvas.tostring_rgb()
+            )
