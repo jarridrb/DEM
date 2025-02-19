@@ -83,7 +83,10 @@ python dem/eval.py experiment=lj55_idem ckpt_path=<path_to_ckpt>
 ```
 
 This will take some time to run and will generate a file named `samples_<n_samples_to_generate>.pt` in the hydra
-runtime directory for the eval run. We can now use these samples to train a CFM model. We provide a config `lj55_idem_cfm`
+runtime directory for the eval run. The eval run will also log keys `test/full_batch/*` and `test/*` to wandb.
+For GMM, DW4 and LJ13 you can refer to the `test/2-Wasserstein` and `test/dist_total_var` keys to reproduce our paper
+numbers while for LJ55 refer to the `test/full_batch/2-Wasserstein` and `test/full_batch/dist_total_var` keys.
+We can now use these samples to train a CFM model. We provide a config `lj55_idem_cfm`
 which has the settings to enable the CFM pipeline to run by default for the LJ55 task, though doing so for other tasks
 is also simple. The main config changes required are to set `model.debug_use_train_data=true, model.nll_with_cfm=true`
 and `model.logz_with_cfm=true`. To point the CFM training run to the dataset generated from iDEM samples we can set the
